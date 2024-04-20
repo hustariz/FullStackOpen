@@ -1,0 +1,6 @@
+As a grandpa dev, instead of learning 5 interchangeable languages of Algol-60 family , if you are a Jr. Dev. spend time learning:
+1. Databases: esp db internals and query optimization
+2. Unix/Linux esp the networking stack and file system stuff
+3. Get into the details of at least one cloud platform
+4. Learn bash: the number of problems that can be solved by a simple shell script (sed+awk+grep+pipes)
+5. The art of writing clearly and concisely.
