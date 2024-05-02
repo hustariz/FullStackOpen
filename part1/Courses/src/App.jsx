@@ -23,10 +23,10 @@ const Footer = () => {
 
 const App = () => {
   const [ counter, setCounter ] = useState(0)
-  setTimeout(
-    () => setCounter(counter + 1),
-    1000
-  )
+
+  const increaseByOne = () => setCounter(counter+1)
+  const setToZero = () => setCounter(0)
+
 
   console.log('rendering...', counter)
 
@@ -40,6 +40,12 @@ const App = () => {
       <Hello name="Maya" age={26 + 10} />
       <Hello name={name} age={age} />
       <div>{counter}</div>
+      <button onClick={increaseByOne}>
+      plus
+      </button>
+      <button onClick={setToZero}>
+      zero
+      </button>
       <Footer />
     </div>
   )
