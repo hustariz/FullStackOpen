@@ -1,18 +1,5 @@
 import { useState } from 'react'
 
-const Hello = ({ name, age }) => {
-  const bornYear = () => new Date().getFullYear() - age
-  
-  return (
-    <div>
-      <p>
-        Hello {name}, you are {age} years old.
-      </p>
-      <p>So you were probably born in {bornYear()}</p>
-    </div>
-  )
-}
-
 const Footer = () => {
   return (
     <div>
@@ -24,7 +11,21 @@ const Footer = () => {
 const Display = ({counter}) => <div>{counter}</div>
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
   
-
+const History = (props) => {
+  if (props.allClicks.length === 0){
+    return (
+      <div>
+        the app is used by pressing the buttons
+      </div>
+    )
+  }
+  return (
+    <div>
+      Button press history : {props.allClicks.join(' ')}
+      <p>total {props.total}</p>
+    </div>
+  )
+}
 const App = () => {
   const [left, setLeft] = useState(0)
   const [right, setRight] = useState(0)
@@ -48,11 +49,10 @@ const App = () => {
   return (
     <div>
       {left}
-      <button onClick={handleLeftClick}>left</button>
-      <button onClick={handleRightClick}>right</button>
+      <Button onClick={handleLeftClick} text='left'/>
+      <Button onClick={handleRightClick} text= 'right'/>
       {right}
-      <p>{allClicks.join('  ')}</p>
-      <p>total {total}</p>
+      <History allClicks={allClicks} total={total}/>
       <Footer />
     </div>
   )
