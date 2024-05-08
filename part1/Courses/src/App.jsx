@@ -8,6 +8,10 @@ const Footer = () => {
   )
 }
 
+const Button = (props) => (
+  <button onClick={props.handleClick}>{props.text}</button>
+)
+
 const App = () => {
   const [value, setValue] = useState(10)
 
@@ -21,11 +25,11 @@ const App = () => {
   return (
     <div>
       <p>{value}</p>
-      <button onClick={setToValue(value + 1)}>Increment</button>
-      <button onClick={() => setToValueFunction(1000)}>Set to 1000</button>
-      <button onClick={reset()}>reset to zero</button>
-      <button onClick={hello('world')}>Hello world</button>
-      <button onClick={compactHello('react')}>Hello react</button>
+      <Button handleClick={setToValue(value + 1)} text="Increment"/>
+      <Button handleClick={() => setToValueFunction(1000)}text="Set to 1000"/>
+      <Button handleClick={reset()}text="reset to zero"/>
+      <Button handleClick={hello('world')}text="Hello world"/>
+      <Button handleClick={compactHello('react')}text="Hello react"/>
 
       <Footer />
     </div>
