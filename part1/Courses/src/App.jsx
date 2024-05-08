@@ -7,6 +7,7 @@ const Footer = () => {
     </div>
   )
 }
+const Display = (props) => <div>{props.value}</div>
 
 const Button = (props) => (
   <button onClick={props.handleClick}>{props.text}</button>
@@ -24,7 +25,7 @@ const App = () => {
 
   return (
     <div>
-      <p>{value}</p>
+      <Display value={value}/>
       <Button handleClick={setToValue(value + 1)} text="Increment"/>
       <Button handleClick={() => setToValueFunction(1000)}text="Set to 1000"/>
       <Button handleClick={reset()}text="reset to zero"/>
