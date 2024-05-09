@@ -4,3 +4,10 @@ As a grandpa dev, instead of learning 5 interchangeable languages of Algol-60 fa
 3. Get into the details of at least one cloud platform
 4. Learn bash: the number of problems that can be solved by a simple shell script (sed+awk+grep+pipes)
 5. The art of writing clearly and concisely.
+
+Programming is hard, that is why I will use all the possible means to make it easier:
+*I will have my browser developer console open all the time
+*I progress with small steps
+*I will write lots of console.log statements to make sure I understand how the code behaves and to help pinpointing problems
+*If my code does not work, I will not write more code. Instead I start deleting the code until it works or just return to a state when everything was still working
+*When I ask for help in the course Discord or Telegram channel or elsewhere I formulate my questions properly, see here how to ask for help
