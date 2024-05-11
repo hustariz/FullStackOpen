@@ -11,15 +11,19 @@ const Button = ({handleClick, text}) => (
   <button onClick={handleClick}>{text}</button>
 )
 
+
+const StatisticLine = (props) => <p>{props.text}{props.value}</p>
+
 const Statistics = (props) => 
 <div>
-  <p>{props.goodTitle}{props.goodValue}</p>
-  <p>{props.neutralTitle}{props.neutralValue}</p>
-  <p>{props.badTitle}{props.badValue}</p>
-  <p>{props.allTitle}{props.allValue}</p>
-  <p>{props.averageTitle}{props.averageValue}</p>
-  <p>{props.positiveTitle}{props.positiveValue}</p>
+  <StatisticLine text={props.goodTitle} value={props.goodValue} />
+  <StatisticLine text={props.neutralTitle} value={props.neutralValue} />
+  <StatisticLine text={props.badTitle} value={props.badValue} />
+  <StatisticLine text={props.allTitle} value={props.allValue} />
+  <StatisticLine text={props.averageTitle} value={props.averageValue} />
+  <StatisticLine text={props.positiveTitle} value={props.positiveValue} />
 </div>
+
 
 
 const Footer = () => {
