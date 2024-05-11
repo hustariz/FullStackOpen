@@ -6,11 +6,21 @@ const Title = ({title}) => {
   )
 }
 
-const Display = ({title, value}) => <div>{title}{value}</div>
 
 const Button = ({handleClick, text}) => (
   <button onClick={handleClick}>{text}</button>
 )
+
+const Statistics = (props) => 
+<div>
+  <p>{props.goodTitle}{props.goodValue}</p>
+  <p>{props.neutralTitle}{props.neutralValue}</p>
+  <p>{props.badTitle}{props.badValue}</p>
+  <p>{props.allTitle}{props.allValue}</p>
+  <p>{props.averageTitle}{props.averageValue}</p>
+  <p>{props.positiveTitle}{props.positiveValue}</p>
+</div>
+
 
 const Footer = () => {
   return (
@@ -31,6 +41,7 @@ const App = () => {
   const [all, setAll] = useState(0)
   const [average, setAverage] = useState(0)
   const [positive, setPositive] = useState(0)
+  const statsTitles = ['Good: ', 'Neutral: ', 'Bad: ', 'All: ', 'Average: ', 'Positive: ']
 
   const handleGoodClick = () => {
     setGood(good+1);setAll(all+1);
@@ -56,12 +67,10 @@ const App = () => {
       <Button handleClick={handleBadClick} text="Bad"/>
 
       <Title title={titleStat}/>
-      <Display title='Good: ' value={good}/>
-      <Display title='Neutral: 'value={neutral}/>
-      <Display title='Bad: 'value={bad}/>
-      <Display title='All: 'value={all}/>
-      <Display title='Average: 'value={average}/>
-      <Display title='Positive: 'value={positive}/>
+
+      <Statistics goodTitle={statsTitles[0]} neutralTitle={statsTitles[1]} badTitle={statsTitles[2]}
+      allTitle={statsTitles[3]} averageTitle={statsTitles[4]} positiveTitle={statsTitles[5]}
+      goodValue={good} neutralValue={neutral} badValue={bad} allValue={all} averageValue={average} positiveValue={positive}/>
       <br></br>
       <Footer />
     </div>
