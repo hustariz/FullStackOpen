@@ -42,21 +42,32 @@ const App = () => {
   const [average, setAverage] = useState(0)
   const [positive, setPositive] = useState(0)
   const statsTitles = ['Good: ', 'Neutral: ', 'Bad: ', 'All: ', 'Average: ', 'Positive: ']
+  const [feedbackGathered, setFeedbackGathered] = useState(false);
+  const [noFeedback, setNoFeedback] = useState(true);
 
   const handleGoodClick = () => {
     setGood(good+1);setAll(all+1);
     setAverage(((good*1+neutral*0-bad)+1)/(all+1));
-    setPositive((good/(all+1))*100 + ' %');}
+    setPositive((good/(all+1))*100 + ' %');
+    setFeedbackGathered(true);
+    setNoFeedback(false);
+  }
 
   const handleNeutralClick = () => {
     setNeutral(neutral+1); setAll(all+1);
     setAverage((good*1+neutral*0-bad)/(all+1));
-    setPositive((good/(all+1))*100 + ' %');}
+    setPositive((good/(all+1))*100 + ' %');
+    setFeedbackGathered(true);
+    setNoFeedback(false);
+  }
 
   const handleBadClick = () => {
     setBad(bad+1); setAll(all+1);
     setAverage(((good*1+neutral*0-bad)-1)/(all+1));
-    setPositive((good/(all+1))*100 + ' %');}
+    setPositive((good/(all+1))*100 + ' %');
+    setFeedbackGathered(true);
+    setNoFeedback(false);
+  }
     
   
   return (
@@ -67,14 +78,18 @@ const App = () => {
       <Button handleClick={handleBadClick} text="Bad"/>
 
       <Title title={titleStat}/>
-
-      <Statistics goodTitle={statsTitles[0]} neutralTitle={statsTitles[1]} badTitle={statsTitles[2]}
-      allTitle={statsTitles[3]} averageTitle={statsTitles[4]} positiveTitle={statsTitles[5]}
-      goodValue={good} neutralValue={neutral} badValue={bad} allValue={all} averageValue={average} positiveValue={positive}/>
+      {noFeedback &&
+       (<p>No feedback given.</p>)}
+      {feedbackGathered && (
+        <Statistics goodTitle={statsTitles[0]} neutralTitle={statsTitles[1]} badTitle={statsTitles[2]}
+        allTitle={statsTitles[3]} averageTitle={statsTitles[4]} positiveTitle={statsTitles[5]}
+        goodValue={good} neutralValue={neutral} badValue={bad} allValue={all} averageValue={average} positiveValue={positive}/>
+      )}
       <br></br>
       <Footer />
     </div>
   )
 }
+
 
 export default App
