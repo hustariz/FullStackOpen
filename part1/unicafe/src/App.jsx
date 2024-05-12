@@ -90,6 +90,20 @@ const App = () => {
         goodValue={good} neutralValue={neutral} badValue={bad} allValue={all} averageValue={average} positiveValue={positive}/>
       )}
       <br></br>
+    <table>
+    <tr>
+      <td>Hi, I'm your first cell.</td>
+      <td>I'm your second cell.</td>
+      <td>I'm your third cell.</td>
+      <td>I'm your fourth cell.</td>
+    </tr>
+    <tr>
+      <td>Second row, first cell.</td>
+      <td>Cell 2.</td>
+      <td>Cell 3.</td>
+      <td>Cell 4.</td>
+    </tr>
+    </table>
       <Footer />
     </div>
   )
