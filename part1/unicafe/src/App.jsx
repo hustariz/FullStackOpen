@@ -12,18 +12,24 @@ const Button = ({handleClick, text}) => (
 )
 
 
-const StatisticLine = (props) => <p>{props.text}{props.value}</p>
+const StatisticLine = (props) =>
+  <tr>
+    <th>{props.text}</th>
+    <th>{props.value}</th>
+  </tr>
+
 
 const Statistics = (props) => 
-<div>
-  <StatisticLine text={props.goodTitle} value={props.goodValue} />
-  <StatisticLine text={props.neutralTitle} value={props.neutralValue} />
-  <StatisticLine text={props.badTitle} value={props.badValue} />
-  <StatisticLine text={props.allTitle} value={props.allValue} />
-  <StatisticLine text={props.averageTitle} value={props.averageValue} />
-  <StatisticLine text={props.positiveTitle} value={props.positiveValue} />
-</div>
-
+  <table>
+     <tbody>
+      <StatisticLine text={props.goodTitle} value={props.goodValue} />
+      <StatisticLine text={props.neutralTitle} value={props.neutralValue} />
+      <StatisticLine text={props.badTitle} value={props.badValue} />
+      <StatisticLine text={props.allTitle} value={props.allValue} />
+      <StatisticLine text={props.averageTitle} value={props.averageValue} />
+      <StatisticLine text={props.positiveTitle} value={props.positiveValue} />
+    </tbody>
+  </table>
 
 
 const Footer = () => {
@@ -90,20 +96,6 @@ const App = () => {
         goodValue={good} neutralValue={neutral} badValue={bad} allValue={all} averageValue={average} positiveValue={positive}/>
       )}
       <br></br>
-    <table>
-    <tr>
-      <td>Hi, I'm your first cell.</td>
-      <td>I'm your second cell.</td>
-      <td>I'm your third cell.</td>
-      <td>I'm your fourth cell.</td>
-    </tr>
-    <tr>
-      <td>Second row, first cell.</td>
-      <td>Cell 2.</td>
-      <td>Cell 3.</td>
-      <td>Cell 4.</td>
-    </tr>
-    </table>
       <Footer />
     </div>
   )
