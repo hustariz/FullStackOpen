@@ -12,7 +12,7 @@ sequenceDiagram
     server-->>browser: HTTP status code 302
     deactivate server
 
-    Note right of browser: This is a URL redirect, So, the browser reloads the Notes page
+    Note right of browser: This us a URL redirect, So, the browser reloads the Notes page
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
     server-->>browser: HTML document
