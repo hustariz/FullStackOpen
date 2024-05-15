@@ -75,31 +75,41 @@ const App = () => {
 
 
   const handleGoodClick = () => {
-    setGood(good+1);setAll(all+1);
-    setAverage(((good*1+neutral*0-bad)+1)/(all+1));
-    setPositive((good/(all+1))*100 + ' %');
+    const newGood = good +1; const newAll = all +1
+    const newAverage = ((good * 1 + neutral * 0 - bad) + 1) / (all + 1);
+    const newPositive = (good / (all + 1)) * 100 + ' %';
+    setGood(newGood);setAll(newAll);
+    setAverage(newAverage);
+    setPositive(newPositive);
     setFeedbackGathered(true);
     setNoFeedback(false);
   }
 
   const handleNeutralClick = () => {
-    setNeutral(neutral+1); setAll(all+1);
-    setAverage((good*1+neutral*0-bad)/(all+1));
-    setPositive((good/(all+1))*100 + ' %');
+    const newNeutral = neutral +1; const newAll = all +1
+    const newAverage = ((good * 1 + neutral * 0 - bad) + 1) / (all + 1);
+    const newPositive = (good / (all + 1)) * 100 + ' %';
+    setNeutral(newNeutral);setAll(newAll);
+    setAverage(newAverage);
+    setPositive(newPositive);
     setFeedbackGathered(true);
     setNoFeedback(false);
   }
 
   const handleBadClick = () => {
-    setBad(bad+1); setAll(all+1);
-    setAverage(((good*1+neutral*0-bad)-1)/(all+1));
-    setPositive((good/(all+1))*100 + ' %');
+    const newBad = bad +1; const newAll = all +1
+    const newAverage = ((good * 1 + neutral * 0 - bad) + 1) / (all + 1);
+    const newPositive = (good / (all + 1)) * 100 + ' %';
+    setBad(newBad);setAll(newAll);
+    setAverage(newAverage);
+    setPositive(newPositive);
     setFeedbackGathered(true);
     setNoFeedback(false);
   }
   const handleAnecdoteClick = () => {
     if (anecdoteSelected+1 < anecdotes.length){
-      setSelected(anecdoteSelected+1);
+      const newAnecdoteSelected = anecdoteSelected+1;
+      setSelected(newAnecdoteSelected);
     } else{
       setSelected(0);
     }
