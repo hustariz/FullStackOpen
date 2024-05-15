@@ -24,7 +24,5 @@ sequenceDiagram
 
     Note right of browser: This is not a URL redirect, so the browser stays on the same page,
     Note right of browser:  and sends no further HTTP requests.
-
-
     
 ```

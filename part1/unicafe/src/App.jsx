@@ -18,6 +18,11 @@ const StatisticLine = (props) =>
     <th>{props.value}</th>
   </tr>
 
+const VoteLine = (props) =>
+  <div>
+    <p>Has {props.value} votes.</p>
+  </div>
+
 
 const Statistics = (props) => 
   <table>
@@ -65,7 +70,8 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
-  let [selected, setSelected] = useState(0)
+  const [anecdoteSelected, setSelected] = useState(0)
+  const [votes, setVote] = useState(new Uint8Array(anecdotes.length));
 
 
   const handleGoodClick = () => {
@@ -92,13 +98,16 @@ const App = () => {
     setNoFeedback(false);
   }
   const handleAnecdoteClick = () => {
-    if (selected+1 < anecdotes.length){
-      setSelected(selected+1);
+    if (anecdoteSelected+1 < anecdotes.length){
+      setSelected(anecdoteSelected+1);
     } else{
-      selected -= anecdotes.length;
-      setSelected(selected+1);
+      setSelected(0);
     }
-
+  }
+  const handleVoteClick = () => {
+    const newVotes = [...votes];
+    newVotes[anecdoteSelected]++;
+    setVote(newVotes);
   }
     
   
@@ -119,7 +128,9 @@ const App = () => {
       )}
       <br></br>
       <div>
-        <p>{anecdotes[selected]}</p>
+        <p>{anecdotes[anecdoteSelected]}</p>
+      <VoteLine value={votes[anecdoteSelected]}/>
+      <Button handleClick={handleVoteClick} text="Vote"/> 
       <Button handleClick={handleAnecdoteClick} text="Next anecdote!"/>
       </div>
       <br></br>
