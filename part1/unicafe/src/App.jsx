@@ -50,6 +50,8 @@ const App = () => {
   // save clicks of each button to its own state
   const titleFeed = 'Give feedback'
   const titleStat = 'Statistic'
+  const titleAnecdote = 'Anecdote of the day'
+  const titleAnecdoteMostVoted = 'Anecdote with most votes'
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
@@ -70,8 +72,12 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
-  const [anecdoteSelected, setSelected] = useState(0)
+  const [anecdote, setAnecdote] = useState(0);
   const [votes, setVote] = useState(new Uint8Array(anecdotes.length));
+  const [mostVotedAnecdote, setMostVotedAnecdote] = useState('No vote yet.');
+  const [mostVotes, setMostVote] = useState('no');
+
+  
 
 
   const handleGoodClick = () => {
@@ -107,17 +113,26 @@ const App = () => {
     setNoFeedback(false);
   }
   const handleAnecdoteClick = () => {
-    if (anecdoteSelected+1 < anecdotes.length){
-      const newAnecdoteSelected = anecdoteSelected+1;
-      setSelected(newAnecdoteSelected);
+    if (anecdote+1 < anecdotes.length){
+      const newAnecdote = anecdote+1;
+      setAnecdote(newAnecdote);
     } else{
-      setSelected(0);
+      setAnecdote(0);
     }
   }
   const handleVoteClick = () => {
     const newVotes = [...votes];
-    newVotes[anecdoteSelected]++;
+    newVotes[anecdote]++;
     setVote(newVotes);
+
+    const newMostVoted = Math.max(...newVotes);
+    console.log(newMostVoted);
+    console.log(newVotes[anecdote]);
+    if(newVotes[anecdote] >= newMostVoted){
+      setMostVote(newMostVoted);
+      const newMostVotedAnecdote = anecdotes[anecdote];
+      setMostVotedAnecdote(newMostVotedAnecdote);
+    }
   }
     
   
@@ -137,12 +152,16 @@ const App = () => {
         goodValue={good} neutralValue={neutral} badValue={bad} allValue={all} averageValue={average} positiveValue={positive}/>
       )}
       <br></br>
+      <Title title={titleAnecdote}/>
       <div>
-        <p>{anecdotes[anecdoteSelected]}</p>
-      <VoteLine value={votes[anecdoteSelected]}/>
+        <p>{anecdotes[anecdote]}</p>
+      <VoteLine value={votes[anecdote]}/>
       <Button handleClick={handleVoteClick} text="Vote"/> 
       <Button handleClick={handleAnecdoteClick} text="Next anecdote!"/>
       </div>
+      <Title title={titleAnecdoteMostVoted}/>
+      <p>{mostVotedAnecdote}</p>
+      <VoteLine value={mostVotes}/>
       <br></br>
       <Footer />
 
