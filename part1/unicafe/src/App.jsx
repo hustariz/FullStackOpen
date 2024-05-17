@@ -6,11 +6,9 @@ const Title = ({title}) => {
   )
 }
 
-
 const Button = ({handleClick, text}) => (
   <button onClick={handleClick}>{text}</button>
 )
-
 
 const StatisticLine = (props) =>
   <tr>
@@ -22,7 +20,6 @@ const VoteLine = (props) =>
   <div>
     <p>Has {props.value} votes.</p>
   </div>
-
 
 const Statistics = (props) => 
   <table>
@@ -36,7 +33,6 @@ const Statistics = (props) =>
     </tbody>
   </table>
 
-
 const Footer = () => {
   return (
     <div>
@@ -44,7 +40,6 @@ const Footer = () => {
     </div>
   )
 }
-
 
 const App = () => {
   // save clicks of each button to its own state
@@ -61,7 +56,6 @@ const App = () => {
   const statsTitles = ['Good: ', 'Neutral: ', 'Bad: ', 'All: ', 'Average: ', 'Positive: ']
   const [feedbackGathered, setFeedbackGathered] = useState(false);
   const [noFeedback, setNoFeedback] = useState(true);
-
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
@@ -78,8 +72,6 @@ const App = () => {
   const [mostVotes, setMostVote] = useState('no');
 
   
-
-
   const handleGoodClick = () => {
     const newGood = good +1; const newAll = all +1
     const newAverage = ((good * 1 + neutral * 0 - bad) + 1) / (all + 1);
@@ -112,6 +104,7 @@ const App = () => {
     setFeedbackGathered(true);
     setNoFeedback(false);
   }
+
   const handleAnecdoteClick = () => {
     if (anecdote+1 < anecdotes.length){
       const newAnecdote = anecdote+1;
@@ -120,21 +113,20 @@ const App = () => {
       setAnecdote(0);
     }
   }
+
   const handleVoteClick = () => {
     const newVotes = [...votes];
     newVotes[anecdote]++;
     setVote(newVotes);
 
     const newMostVoted = Math.max(...newVotes);
-    console.log(newMostVoted);
-    console.log(newVotes[anecdote]);
     if(newVotes[anecdote] >= newMostVoted){
       setMostVote(newMostVoted);
       const newMostVotedAnecdote = anecdotes[anecdote];
       setMostVotedAnecdote(newMostVotedAnecdote);
     }
   }
-    
+
   
   return (
     <div>
@@ -142,7 +134,6 @@ const App = () => {
       <Button handleClick={handleGoodClick} text="Good"/>
       <Button handleClick={handleNeutralClick} text="Neutral"/>
       <Button handleClick={handleBadClick} text="Bad"/>
-
       <Title title={titleStat}/>
       {noFeedback &&
        (<p>No feedback given.</p>)}
@@ -155,9 +146,9 @@ const App = () => {
       <Title title={titleAnecdote}/>
       <div>
         <p>{anecdotes[anecdote]}</p>
-      <VoteLine value={votes[anecdote]}/>
-      <Button handleClick={handleVoteClick} text="Vote"/> 
-      <Button handleClick={handleAnecdoteClick} text="Next anecdote!"/>
+        <VoteLine value={votes[anecdote]}/>
+        <Button handleClick={handleVoteClick} text="Vote"/> 
+        <Button handleClick={handleAnecdoteClick} text="Next anecdote!"/>
       </div>
       <Title title={titleAnecdoteMostVoted}/>
       <p>{mostVotedAnecdote}</p>
