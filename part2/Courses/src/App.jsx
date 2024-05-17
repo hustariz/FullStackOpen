@@ -17,11 +17,11 @@ const DisplayArray = ({arrayname, array}) =>{
   return (
     <div>
       <h2>{arrayname}</h2>
-      <tr>
+      <ul>
         {array.map((dog, i) => (
           <li key={i}>{dog.name}: {dog.species}</li>
         ))}
-      </tr>
+      </ul>
     </div>
   );
 };
