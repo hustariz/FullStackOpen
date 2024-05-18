@@ -13,13 +13,26 @@ const ArrayLine = (props) =>{
   </tr>
   )
 }
-const DisplayArray = ({arrayname, array}) =>{
+const DisplayAnimalsArray = ({arrayname, array}) =>{
   return (
     <div>
       <h2>{arrayname}</h2>
       <ul>
-        {array.map((dog, i) => (
-          <li key={i}>{dog.name}: {dog.species}</li>
+        {array.map((animal, i) => (
+          <li key={i}>{animal.name}: {animal.species}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const DisplayAnimalsName = ({arrayname, array}) =>{
+  return (
+    <div>
+      <h2>{arrayname}</h2>
+      <ul>
+        {array.map((name, i) => (
+          <li key={i}>{name}</li>
         ))}
       </ul>
     </div>
@@ -54,26 +67,46 @@ const App = () => {
       forDogs.push(animals[i]);
     }
   }
-  const isDog = function(animal) {
-    return animal.species === 'dog'
+  /*const isDog = function(array) {
+    return array.species === 'dog'
   }
-  let filterDogs = animals.filter(isDog);
-  let otherAnimals = animals.filter(animal => !isDog(animal));
-
+  Since ECMAScript6 we can use arrowfunctions instead of function: */
+  // const isArrowDog = array => {return array.species === 'dog'} Shorter
+  const isArrowDog = array => array.species === 'dog' // Even Shorter
   
+  let filterDogs = animals.filter(isArrowDog);
+  let otherAnimals = animals.filter(array => !isArrowDog(array));
+
+  let forNames = []
+  for (let i = 0; i < animals.length; i++) {
+    forNames.push(animals[i].name)
+  }
+  /*
+  let mapNames = animals.map(function(array) {
+    return array.name + ' is a ' + array.species
+  })
+  Same for here we can use arrowfunctions: */
+  // let arrowMapNames = animals.map(array =>{return array.name + ' is a ' + array.species}) // Way shorter
+  let arrowMapNames = animals.map(array => array.name + ' is a ' + array.species) // Even Shorter
+
+
   return (
     <div>
       <Title title={titleFunctionnal}/>
-      <DisplayArray arrayname='Full Animals Array:' array={animals} />
-      <DisplayArray arrayname='Fordogs Array:' array={forDogs} />
-      <DisplayArray arrayname='Filter dogs:'array={filterDogs} />
-      <DisplayArray arrayname='Filter notDogs:'array={otherAnimals} />
+      <DisplayAnimalsArray arrayname='Full Animals Array:' array={animals} />
+      <DisplayAnimalsArray arrayname='Fordogs Array:' array={forDogs} />
+      <DisplayAnimalsArray arrayname='Filter dogs:'array={filterDogs} />
+      <DisplayAnimalsArray arrayname='Filter notDogs:'array={otherAnimals} />
+      <DisplayAnimalsName arrayname='ForAnimalsName:'array={forNames} />
+      <DisplayAnimalsName arrayname='MapNames:'array={arrowMapNames} />
       <br></br>
       <Footer />
 
     </div>
   )
 }
+
+  
 
 
 export default App
