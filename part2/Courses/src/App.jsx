@@ -89,6 +89,25 @@ const App = () => {
   // let arrowMapNames = animals.map(array =>{return array.name + ' is a ' + array.species}) // Way shorter
   let arrowMapNames = animals.map(array => array.name + ' is a ' + array.species) // Even Shorter
 
+  const orders = [
+    { amount: 250},
+    { amount: 400},
+    { amount: 100},
+    { amount: 325}
+  ]
+
+/*
+  let totalAmount = orders.reduce(function(sum, order){
+    console.log('hello', sum, order);
+    return sum + order.amount
+  }, 0) */
+  let totalAmount = orders.reduce((sum, order) => sum + order.amount, 0)
+
+/*  for (let i = 0; i < orders.length; i++) {
+    totalAmount += orders[i].amount;
+  } */
+  console.log(totalAmount);
+
 
   return (
     <div>
