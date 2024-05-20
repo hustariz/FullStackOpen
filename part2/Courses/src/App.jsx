@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import React, { useEffect } from 'react';
 
 const Title = ({title}) => {
   return (
@@ -6,13 +7,6 @@ const Title = ({title}) => {
   )
 }
 
-const ArrayLine = (props) =>{
-  return(
-  <tr>
-    <th>{props.name}:{props.specie}</th>
-  </tr>
-  )
-}
 const DisplayAnimalsArray = ({arrayname, array}) =>{
   return (
     <div>
@@ -35,6 +29,26 @@ const DisplayAnimalsName = ({arrayname, array}) =>{
           <li key={i}>{name}</li>
         ))}
       </ul>
+    </div>
+  );
+};
+
+const DisplayCustomersOrders = ({name, object}) =>{
+  return (
+    <div>
+      <h2>{name}</h2>
+      {Object.entries(object).map(([customerName, orders], index) => (
+        <div key={index}>
+          <h4>{customerName}: </h4>
+          <ul>
+            {orders.map((order, orderIndex) => (
+              <li key={orderIndex}>
+                {order}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   );
 };
@@ -101,13 +115,37 @@ const App = () => {
     console.log('hello', sum, order);
     return sum + order.amount
   }, 0) */
-  let totalAmount = orders.reduce((sum, order) => sum + order.amount, 0)
+  let totalAmount = orders.reduce((sum, order) => sum + order.amount, 0) // Shorter
 
 /*  for (let i = 0; i < orders.length; i++) {
     totalAmount += orders[i].amount;
   } */
   console.log(totalAmount);
 
+  // Reduce Exemple number 2
+  
+  const [fileContent, setFileContent] = useState('');
+
+  useEffect(() => {
+    fetch('/data.txt')
+      .then(response => response.text())
+      .then(text => setFileContent(text))
+      .catch(error => console.error('Error fetching the file:', error));
+  }, []);
+  const arrayContent = fileContent.split('\n')
+  const output = arrayContent.reduce((customers, arrayLine) => {
+      const parts = arrayLine.split(' ')
+      const customerName = `${parts[0]} ${parts[1]}`; // Concatenate the first two parts to get the full name
+      //const customerOrder = 'name: ' + `${parts[2]}` + '; price: ' +  `${parts[4]}`+ '; quantity: ' +  `${parts[5]}`;
+      const customerOrder = `order: ${parts.slice(2, -2).join(' ')}; price: ${parts[parts.length - 2]}; quantity: ${parts[parts.length - 1].trim()}`;
+
+      if (!customers[customerName]) {
+        customers[customerName] = [];
+      }
+      customers[customerName].push(customerOrder);
+      return customers
+    }, {})
+    console.log(output);
 
   return (
     <div>
@@ -118,6 +156,11 @@ const App = () => {
       <DisplayAnimalsArray arrayname='Filter notDogs:'array={otherAnimals} />
       <DisplayAnimalsName arrayname='ForAnimalsName:'array={forNames} />
       <DisplayAnimalsName arrayname='MapNames:'array={arrowMapNames} />
+      <div>
+      <h1>File Content</h1>
+      <pre>{fileContent}</pre>
+      </div>
+      <DisplayCustomersOrders name='Customers Orders' object={output} />
       <br></br>
       <Footer />
 
