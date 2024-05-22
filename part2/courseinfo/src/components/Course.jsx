@@ -1,17 +1,17 @@
-const Header = (props) => 
+const Header = ({title}) => 
     {
       return(
-      <h1>{props.course}</h1>
+      <h1>{title}</h1>
       )
     }
     
-    const Content = (props) =>
+    const Content = ({parts}) =>
      {
       return(
       <div>
-          <Part1 part1={props.parts[0].name} exercises1={props.parts[0].exercises}/>
-          <Part2 part2={props.parts[1].name} exercises2={props.parts[1].exercises}/>
-          <Part3 part3={props.parts[2].name} exercises3={props.parts[2].exercises}/>
+          <Part1 part1={parts[0].name} exercises1={parts[0].exercises}/>
+          <Part2 part2={parts[1].name} exercises2={parts[1].exercises}/>
+          <Part3 part3={parts[2].name} exercises3={parts[2].exercises}/>
       </div>
       )
     }
@@ -40,6 +40,15 @@ const Header = (props) =>
       )
     }
     
+    const Total = ({total}) => 
+    {
+      return(
+      <div> 
+         <p>Number of exercises: {total}</p>
+      </div>
+      )
+    }
+
     const Footer = () => {
         return (
           <div>
@@ -49,12 +58,14 @@ const Header = (props) =>
       }
 
 
-
 const Course = ({ course }) => {
+   const total = course.parts.reduce((sum, part) =>  sum + part.exercises, 0)
+
     return (
         <div>
-          <Header course={course.name} />
+          <Header title={course.name} />
           <Content parts={course.parts} />
+          <Total total={total} />
           <br></br>
         <Footer />
         </div>
