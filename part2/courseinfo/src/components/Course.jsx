@@ -9,42 +9,20 @@ const Header = ({title}) =>
      {
       return(
       <div>
-          <Part1 part1={parts[0].name} exercises1={parts[0].exercises}/>
-          <Part2 part2={parts[1].name} exercises2={parts[1].exercises}/>
-          <Part3 part3={parts[2].name} exercises3={parts[2].exercises}/>
+        {parts.map(part =>(
+            <p key={part.id}>
+            {part.name} {part.exercises}
+            </p>
+        ))}
       </div>
       )
     }
-    const Part1 = (props) =>
-    {
-      return(
-        <p>
-          {props.part1} {props.exercises1}
-        </p>
-      )
-    }
-    const Part2 = (props) =>
-    {
-      return(
-        <p>
-          {props.part2} {props.exercises2}
-        </p>
-      )
-    }
-    const Part3 = (props) =>
-    {
-      return(
-        <p>
-          {props.part3} {props.exercises3}
-        </p>
-      )
-    }
-    
-    const Total = ({parts}) => 
+
+    const Total = ({total}) => 
     {
       return(
       <div> 
-         <p>Number of exercises {parts[0].exercises + parts[1].exercises + parts[2].exercises}</p>
+         <p><strong>Number of exercises: {total}</strong></p>
       </div>
       )
     }
@@ -59,14 +37,22 @@ const Header = ({title}) =>
 
 
 const Course = ({ course }) => {
+
     return (
         <div>
-          <Header title={course.name} />
-          <Content parts={course.parts} />
-          <Total parts={course.parts} />
-          <br></br>
+            {course.map(course => {
+            const total = course.parts.reduce((sum, part) => sum + part.exercises, 0);
+            return (
+                <div key={course.id}>
+                    <Header title={course.name} />
+                    <Content parts={course.parts} />
+                    <Total total={total} />
+                </div>
+            );
+        })}
+        <br/>
         <Footer />
-        </div>
+      </div>
       )
   }
   
