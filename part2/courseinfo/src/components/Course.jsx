@@ -56,4 +56,4 @@ const Course = ({ course }) => {
       )
   }
   
-  export default Course
+  export default Course //Ex2.5

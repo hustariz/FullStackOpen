@@ -1,4 +1,4 @@
-import Course from './components/Course'
+import Course from './components/Course' // Ex2.5
 
 const App = () => {
   const courses = [
