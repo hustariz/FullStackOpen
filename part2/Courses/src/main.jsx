@@ -5,17 +5,6 @@ import axios from 'axios'
 import App from './App'
 
 
-axios.get('http://localhost:3001/notes').then(response => {
-  console.log(response);
-  console.log(response.data);
-})
 
-axios
-  .get('http://localhost:3001/notes')
-  .then(response => {
-    const notes = response.data
-    console.log(notes);
-    ReactDOM.createRoot(document.getElementById('root')).render(
-      <App notes={notes} />
-    )
-  })
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />)
+
