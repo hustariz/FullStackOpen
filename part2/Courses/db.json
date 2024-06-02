@@ -3,7 +3,7 @@
     {
       "id": "1",
       "content": "HTML is easy",
-      "important": false
+      "important": true
     },
     {
       "id": "2",
@@ -18,7 +18,7 @@
     {
       "id": "b334",
       "content": "test",
-      "important": false
+      "important": true
     },
     {
       "id": "5",
@@ -28,22 +28,27 @@
     {
       "id": "aaf6",
       "content": "voila",
-      "important": true
+      "important": false
     },
     {
       "id": "e873",
       "content": "data",
-      "important": false
+      "important": true
     },
     {
       "id": "eac9",
       "content": "Let's see",
-      "important": true
+      "important": false
     },
     {
       "id": "afff",
       "content": "setNotes",
       "important": false
+    },
+    {
+      "id": "05f2",
+      "content": "Testnotes.js",
+      "important": true
     }
   ]
 }
