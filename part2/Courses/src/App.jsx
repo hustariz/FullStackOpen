@@ -41,11 +41,8 @@ const App = (props) => {
   }
 
   const handleNoteChange = (event) => {
-    console.log(event.target.value)
     setNewNote(event.target.value)
   }
-
-  const noteToShow = showAll ? notes : notes.filter(note => note.important)
 
   const toggleImportanceOf = (id) => {
     console.log(`importance of ${id} need to be toggled`);
@@ -58,8 +55,13 @@ const App = (props) => {
       .then(returnedNote => {
         setNotes(notes.map(note => note.id === id ? returnedNote : note))
       })
-
+      .catch(error => {
+        alert(`the note '${note.content}' was already deleted from server`)
+        setNotes(notes.filter(n => n.id !== id))
+      })
   }
+
+  const noteToShow = showAll ? notes : notes.filter(note => note.important)
 
   return (
     <div>
