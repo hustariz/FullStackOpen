@@ -12,7 +12,7 @@ const App = () => {
 
   const hook = () => {
     axios
-      .get('http://localhost:3001/persons')
+      .get('http://localhost:3002/persons')
       .then(response => {
         setPersons(response.data)
       })
@@ -29,11 +29,14 @@ const App = () => {
     if (persons.some(person => person.name === newName)){
       alert(`${newName} is already added to phonebook`)
     } else {
-      setPersons(persons.concat(nameObject))
+      axios
+        .post('http://localhost:3002/persons', nameObject)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewNumber('')
+        })
     }
-
-    setNewName('')
-    setNewNumber('')
   }
 
   const handleNameChange = (event) => {
