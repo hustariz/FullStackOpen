@@ -50,6 +50,10 @@ const App = () => {
   const handleFilterChange = (event) => {
     setFilterSearch(event.target.value)
   }
+
+  const handleDeleteButton = (name) => {
+    alert(`Delete ${name} ?`);
+  }
   const filteredPersons = persons.filter(person =>
      person.name.toLowerCase().includes(filterSearch.toLowerCase())
   )
@@ -63,7 +67,7 @@ const App = () => {
          onChangeName={handleNameChange} onChangeNumber={handleNumberChange}
          addContact={addContact}/>
       <h2>Contacts</h2>
-        <Persons filteredPersons={filteredPersons} />
+        <Persons filteredPersons={filteredPersons} handleDeleteButton={handleDeleteButton} />
     </div>
   )
 }
