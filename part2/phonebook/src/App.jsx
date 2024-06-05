@@ -51,8 +51,17 @@ const App = () => {
     setFilterSearch(event.target.value)
   }
 
-  const handleDeleteButton = (name) => {
-    alert(`Delete ${name} ?`);
+  const handleDeleteButton = (id, name) => {
+    if (window.confirm(`Delete ${name} ?`)) {
+      contact
+        .deleteContact(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+          alert(`Contact ${name} has been deleted.`)
+        });
+    }else{
+      alert('Delete canceled')
+    }
   }
   const filteredPersons = persons.filter(person =>
      person.name.toLowerCase().includes(filterSearch.toLowerCase())
