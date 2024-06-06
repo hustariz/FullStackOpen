@@ -21,13 +21,27 @@ const App = () => {
 
   const addContact = (event) => {
     event.preventDefault()
+    const existingContact = persons.find(person => person.name === newName);
     const newContact = {
       name: newName,
       number: newNumber
     }
 
-    if (persons.some(person => person.name === newName)){
-      alert(`${newName} is already added to phonebook`)
+    
+
+    if (existingContact){
+      if (window.confirm(`${newName} is already added to phonebook,
+        replace the old number with a new one ?`)) {
+        contact
+          .updateContact(existingContact.id, newContact)
+          .then(updatedContact => {
+            setPersons(persons.map(person => person.id === existingContact.id ? updatedContact : person))
+            setNewName('')
+            setNewNumber('')
+          })
+      }else{
+        alert('Update canceled')
+      }
     } else {
       contact
         .create(newContact)
