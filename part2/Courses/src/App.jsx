@@ -3,6 +3,7 @@ import axios from 'axios'
 import Note from './components/Note'
 import Notification from './components/Notification'
 import noteService from './services/notes'
+import Footer from './components/Footer'
 
 const App = (props) => {
   const [notes, setNotes] = useState([])
@@ -70,6 +71,7 @@ const App = (props) => {
 
   const noteToShow = showAll ? notes : notes.filter(note => note.important)
 
+  
   return (
     <div>
       <h1>Notes</h1>
@@ -94,7 +96,9 @@ const App = (props) => {
          />
         <button type ="submit">save</button>
       </form>
+      <Footer />
     </div>
+
   )
 }
 
