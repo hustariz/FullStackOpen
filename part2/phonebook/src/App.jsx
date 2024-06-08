@@ -3,12 +3,14 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import contact from './services/contact'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterSearch, setFilterSearch] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
 
   useEffect(() => {
@@ -36,6 +38,8 @@ const App = () => {
           .updateContact(existingContact.id, newContact)
           .then(updatedContact => {
             setPersons(persons.map(person => person.id === existingContact.id ? updatedContact : person))
+            setNotificationMessage(`Updated ${updatedContact.name} Number`)
+            setTimeout(() => {setNotificationMessage(null)}, 3000)
             setNewName('')
             setNewNumber('')
           })
@@ -47,6 +51,8 @@ const App = () => {
         .create(newContact)
         .then(returnedContact => {
           setPersons(persons.concat(returnedContact))
+          setNotificationMessage(`Added ${returnedContact.name}`)
+          setTimeout(() => {setNotificationMessage(null)}, 3000)
           setNewName('')
           setNewNumber('')
         })
@@ -89,6 +95,7 @@ const App = () => {
         <PersonForm newName={newName} newNumber={newNumber}
          onChangeName={handleNameChange} onChangeNumber={handleNumberChange}
          addContact={addContact}/>
+         <Notification message={notificationMessage} />
       <h2>Contacts</h2>
         <Persons filteredPersons={filteredPersons} handleDeleteButton={handleDeleteButton} />
     </div>
