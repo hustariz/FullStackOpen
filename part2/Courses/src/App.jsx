@@ -6,10 +6,10 @@ import noteService from './services/notes'
 import Footer from './components/Footer'
 
 const App = (props) => {
-  const [notes, setNotes] = useState([])
+  const [notes, setNotes] = useState(null)
   const [newNote, setNewNote] = useState('a new note...')
   const [showAll, setShowAll] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('some error happened...')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const hook = () => {
     console.log('effect');
@@ -27,6 +27,11 @@ const App = (props) => {
         setNotes(initialNotes)
       })
   }, [])
+
+  if (!notes) { 
+    return null 
+  }
+  
 
   const addNote = (event) => {
     event.preventDefault()
@@ -70,6 +75,7 @@ const App = (props) => {
   }
 
   const noteToShow = showAll ? notes : notes.filter(note => note.important)
+
 
   
   return (
