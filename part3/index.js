@@ -33,8 +33,17 @@ let notes = [
     if(note){
       response.json(note)
     } else {
-      response.status(404).end()
+      response.status(404).send('<h1>Error: no note with this ID</h1>')
     }
+  })
+
+  app.delete('/api/notes/:id', (request, response) => {
+    const id = Number(request.params.id)
+    console.log(id);
+    notes = notes.filter(note => note.id !== id)
+    console.log(notes);
+    response.status(204).end()
+
   })
 
 
