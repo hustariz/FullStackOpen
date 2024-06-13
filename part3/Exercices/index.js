@@ -28,10 +28,15 @@ app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
   })
   
-  app.get('/api/contacts', (request, response) => {
+app.get('/api/contacts', (request, response) => {
     response.json(contacts)
   })
 
+app.get('/info', (request, response) => {
+    const date = new Date()
+    const nbContact = contacts.length
+    response.send(`<p>Phonebook has info for ${nbContact} people</p> ${date}`)
+})
 
 const PORT = 3001
 app.listen(PORT)
