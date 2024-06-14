@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let contacts = [
     { 
       "id": 1,
@@ -49,11 +51,38 @@ app.get('/api/contacts/:id', (request, response) => {
       }
   })
 
-  app.delete('/api/contacts/:id', (request, response) => {
+app.delete('/api/contacts/:id', (request, response) => {
     const id = Number(request.params.id)
     contacts = contacts.filter(note => note.id !== id)
   
     response.status(204).end()
+  })
+
+const generateId = () => {
+    const maxId = contacts.length > 0
+      ? Math.max(...contacts.map(n => n.id))
+      : 0
+    return maxId + 1
+  } // Why not do the same as in the course to not generate duplicate?
+
+app.post('/api/contacts', (request, response) => {
+    const body = request.body
+
+    if (!body.name) {
+      return response.status(400).json({ 
+        error: 'content missing' 
+      })
+    }
+  
+    const contact = {
+      name: body.name,
+      number: body.number,
+      id: generateId(),
+    }
+  
+    contacts = contacts.concat(contact)
+  
+    response.json(contact)
   })
 
 const PORT = 3001
