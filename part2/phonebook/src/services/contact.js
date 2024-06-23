@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3002/api/contacts'
+const baseUrl = 'https://fullstackopen-exercices.onrender.com/api/contacts'
 
 const getAll = () => {
     const request = axios.get(baseUrl)
