@@ -1,12 +1,44 @@
-require('dotenv').config();
-
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const mongoose = require('mongoose')
+require('dotenv').config();
 
 app.use(cors())
 app.use(express.json())
 app.use(express.static('dist'))
+
+
+// Mongoose definitions 
+
+const password = process.argv[2]
+
+// DO NOT SAVE YOUR PASSWORD TO GITHUB!!
+const url = process.env.MONGODB_URL;
+console.log(url);
+mongoose.set('strictQuery',false)
+mongoose.connect(url)
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  important: Boolean,
+})
+
+const Note = mongoose.model('Note', noteSchema)
+
+app.get('/api/notes', (request, response) => {
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
+})
+
+noteSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
+})
 
 /*let notes = [
     {
@@ -101,6 +133,8 @@ app.use(express.static('dist'))
 
   app.use(unknownEndpoint)
 
+
+
   
   const PORT = process.env.PORT || 3003
   app.listen(PORT, () => {
@@ -108,27 +142,4 @@ app.use(express.static('dist'))
   })
 
 
-// Mongoose definitions 
 
-const mongoose = require('mongoose')
-
-const password = process.argv[2]
-
-// DO NOT SAVE YOUR PASSWORD TO GITHUB!!
-const url = process.env.MONGODB_URL;
-console.log(url);
-mongoose.set('strictQuery',false)
-mongoose.connect(url)
-
-const noteSchema = new mongoose.Schema({
-  content: String,
-  important: Boolean,
-})
-
-const Note = mongoose.model('Note', noteSchema)
-
-app.get('/api/notes', (request, response) => {
-  Note.find({}).then(notes => {
-    response.json(notes)
-  })
-})
