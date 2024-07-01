@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -6,7 +8,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static('dist'))
 
-let notes = [
+/*let notes = [
     {
       id: 1,
       content: "HTML is easy",
@@ -27,7 +29,7 @@ let notes = [
       content: "Test Note from backend",
       important: true
     }
-  ]
+  ]*/
 
   const requestLogger = (request, response, next) => {
     console.log('Method', request.method)
@@ -49,9 +51,9 @@ let notes = [
     response.send('<h1>Hello World!</h1>')
   })
 
-  app.get('/api/notes', (request, response) => {
+  /*app.get('/api/notes', (request, response) => {
     response.json(notes)
-  })
+  })*/
 
   app.get('/api/notes/:id', (request, response) => {
     const id = Number(request.params.id);
@@ -104,3 +106,29 @@ let notes = [
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
   })
+
+
+// Mongoose definitions 
+
+const mongoose = require('mongoose')
+
+const password = process.argv[2]
+
+// DO NOT SAVE YOUR PASSWORD TO GITHUB!!
+const url = process.env.MONGODB_URL;
+console.log(url);
+mongoose.set('strictQuery',false)
+mongoose.connect(url)
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  important: Boolean,
+})
+
+const Note = mongoose.model('Note', noteSchema)
+
+app.get('/api/notes', (request, response) => {
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
+})
