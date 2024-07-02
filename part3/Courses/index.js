@@ -1,44 +1,14 @@
+require('dotenv').config();
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const mongoose = require('mongoose')
-require('dotenv').config();
+const Note = require('./models/note')
 
 app.use(cors())
 app.use(express.json())
 app.use(express.static('dist'))
 
 
-// Mongoose definitions 
-
-const password = process.argv[2]
-
-// DO NOT SAVE YOUR PASSWORD TO GITHUB!!
-const url = process.env.MONGODB_URL;
-console.log(url);
-mongoose.set('strictQuery',false)
-mongoose.connect(url)
-
-const noteSchema = new mongoose.Schema({
-  content: String,
-  important: Boolean,
-})
-
-const Note = mongoose.model('Note', noteSchema)
-
-app.get('/api/notes', (request, response) => {
-  Note.find({}).then(notes => {
-    response.json(notes)
-  })
-})
-
-noteSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  }
-})
 
 /*let notes = [
     {
@@ -77,8 +47,6 @@ noteSchema.set('toJSON', {
     response.status(404).send({ error: 'unknown endpoint' })
   }
 
-
-
   app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
   })
@@ -86,6 +54,14 @@ noteSchema.set('toJSON', {
   /*app.get('/api/notes', (request, response) => {
     response.json(notes)
   })*/
+
+  app.get('/api/notes', (request, response) => {
+    Note.find({}).then(notes => {
+      response.json(notes)
+    })
+  })
+    
+    
 
   app.get('/api/notes/:id', (request, response) => {
     const id = Number(request.params.id);
@@ -123,7 +99,6 @@ noteSchema.set('toJSON', {
     response.json(note)
   })
   
-
   app.delete('/api/notes/:id', (request, response) => {
     const id = Number(request.params.id)
     notes = notes.filter(note => note.id !== id)
@@ -133,9 +108,6 @@ noteSchema.set('toJSON', {
 
   app.use(unknownEndpoint)
 
-
-
-  
   const PORT = process.env.PORT || 3003
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
