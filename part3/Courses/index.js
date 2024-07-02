@@ -8,8 +8,6 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static('dist'))
 
-
-
 /*let notes = [
     {
       id: 1,
@@ -60,10 +58,8 @@ app.use(express.static('dist'))
       response.json(notes)
     })
   })
-    
-    
 
-  app.get('/api/notes/:id', (request, response) => {
+  /* app.get('/api/notes/:id', (request, response) => {
     const id = Number(request.params.id);
     const note = notes.find(note => note.id === id)
     if(note){
@@ -72,6 +68,13 @@ app.use(express.static('dist'))
       response.status(404).send('<h1>Error: no note with this ID</h1>')
     }
   })
+    */
+  //New methods using the database
+  app.get('/api/notes/:id', (request, response) => {
+    Note.findById(request.params.id).then(note => {
+      response.json(note)
+    })
+  })
 
   const generateId = () => {
     const maxId = notes.length > 0
@@ -79,7 +82,8 @@ app.use(express.static('dist'))
       : 0
     return maxId + 1
   }
-  app.post('/api/notes', (request, response) => {
+ 
+ /* app.post('/api/notes', (request, response) => {
     const body = request.body
 
     if (!body.content) {
@@ -98,6 +102,24 @@ app.use(express.static('dist'))
 
     response.json(note)
   })
+    */
+  //New methods using the database
+  app.post('/api/notes', (request, response) => {
+  const body = request.body
+
+  if (body.content === undefined) {
+    return response.status(400).json({ error: 'content missing' })
+  }
+
+  const note = new Note({
+    content: body.content,
+    important: body.important || false,
+  })
+
+  note.save().then(savedNote => {
+    response.json(savedNote)
+  })
+})
   
   app.delete('/api/notes/:id', (request, response) => {
     const id = Number(request.params.id)
