@@ -1,0 +1,7 @@
+POST http://localhost:3002/api/contacts
+Content-Type: application/json
+
+{
+    "name": "Test from backend",
+    "number": "0609080705"
+}

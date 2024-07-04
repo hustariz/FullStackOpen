@@ -84,29 +84,27 @@ const generateId = () => {
 app.post('/api/contacts', (request, response) => {
     const body = request.body
 
-    if (!body.name || !body.number) {
+    if (body.name === undefined) {
       return response.status(400).json({ 
         error: 'content missing' 
       })
     }
 
-    const nameExists = contacts.some(contact => contact.name == body.name)
+    /*const nameExists = contacts.some(contact => contact.name == body.name)
 
     if (nameExists) {
       return response.status(400).json({ 
         error: 'name must be unique' 
       })
-    }
+    }*/
   
-    const contact = {
+    const contact = new Contact({
       name: body.name,
-      number: body.number,
-      id: generateId(),
-    }
-  
-    contacts = contacts.concat(contact)
-  
-    response.json(contact)
+      number: body.number
+    })
+    contact.save().then(savedContact => {
+      response.json(savedContact)
+    })
   })
 
   const PORT = process.env.PORT || 3002
