@@ -3,10 +3,8 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const Note = require('./models/note')
-
 app.use(cors())
-app.use(express.json())
-app.use(express.static('dist'))
+
 
 /*let notes = [
     {
@@ -38,6 +36,7 @@ app.use(express.static('dist'))
     console.log('---');
     next()
   }
+  app.use(express.static('dist'))
   app.use(express.json())
   app.use(requestLogger)
 
@@ -133,7 +132,7 @@ app.use(express.static('dist'))
 
   })
 
-  app.use(unknownEndpoint)
+  app.use(unknownEndpoint) // must be next to the last middleware loaded into Express, just before the error handler
 
   const PORT = process.env.PORT || 3003
   app.listen(PORT, () => {
