@@ -67,11 +67,12 @@ app.get('/api/contacts/:id', (request, response) => {
       }
   })
 
-app.delete('/api/contacts/:id', (request, response) => {
+app.delete('/api/contacts/:id', (request, response, next) => {
     Contact.findByIdAndDelete(request.params.id)
       .then(result => {
         response.status(204).end()
       })
+      .catch(error => next(error))
   })
 
 const generateId = () => {
@@ -111,3 +112,12 @@ app.post('/api/contacts', (request, response) => {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
   })
+  const errorHandler = (error, request, response, next) => {
+
+    if (error.name === 'CastError') {
+      return response.status(400).send({ error: 'malformatted id' })
+    } 
+    next(error)
+  }
+  // this has to be the last loaded middleware, also all the routes should be registered before this!
+  app.use(errorHandler)
