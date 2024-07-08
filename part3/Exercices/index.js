@@ -75,6 +75,21 @@ app.delete('/api/contacts/:id', (request, response, next) => {
       .catch(error => next(error))
   })
 
+app.put('/api/contacts/:id', (request, response, next) => {
+  const body = request.body
+
+  const contact = {
+    name: body.name,
+    number: body.number
+  }
+
+  Contact.findByIdAndUpdate(request.params.id, contact, {new: true})
+    .then(updatedContact => {
+      response.json(updatedContact)
+    })
+    .catch(error => next(error))
+})
+
 const generateId = () => {
     const maxId = contacts.length > 0
       ? Math.max(...contacts.map(n => n.id))

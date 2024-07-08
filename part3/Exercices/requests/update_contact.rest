@@ -1,0 +1,7 @@
+PUT http://localhost:3002/api/contacts/668b27f2e2db692b891c49b7
+Content-Type: application/json
+
+{
+    "name": "Updated from PUT",
+    "number": "0506090805"
+}
