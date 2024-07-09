@@ -56,16 +56,16 @@ app.get('/info', (request, response) => {
     response.send(`<p>Phonebook has info for ${nbContact} people</p> ${date}`)
 })
 
-app.get('/api/contacts/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const contact = contacts.find(contact => contact.id === id)
-
+app.get('/api/contacts/:id', (request, response, next) => {
+  Contact.findById(request.params.id).then(contact => {
     if (contact) {
-        response.json(contact)
-      } else {
-        response.status(404).end()
-      }
+      response.json(contact)
+    } else {
+      response.status(404).end()
+    }
   })
+  .catch(error => next(error))
+})
 
 app.delete('/api/contacts/:id', (request, response, next) => {
     Contact.findByIdAndDelete(request.params.id)
