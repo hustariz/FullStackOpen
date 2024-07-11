@@ -13,42 +13,15 @@ morgan.token('body', (req) => JSON.stringify(req.body))
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
-
-/*let contacts = [
-    { 
-      "id": 1,
-      "name": "Arto Hellas", 
-      "number": "040-123456"
-    },
-    { 
-      "id": 2,
-      "name": "Ada Lovelace", 
-      "number": "39-44-5323523"
-    },
-    { 
-      "id": 3,
-      "name": "Dan Abramov", 
-      "number": "12-43-234345"
-    },
-    { 
-      "id": 4,
-      "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
-    }
-]*/
-
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
   })
   
-/*app.get('/api/contacts', (request, response) => {
+app.get('/api/contacts', (request, response) => {
+  Contact.find({}).then(contacts => {
     response.json(contacts)
-  })*/
-    app.get('/api/contacts', (request, response) => {
-      Contact.find({}).then(contacts => {
-        response.json(contacts)
-      })
-    })
+  })
+})
 
 app.get('/info', (request, response) => {
     const date = new Date()
@@ -97,7 +70,7 @@ const generateId = () => {
     return maxId + 1
   } // Why not do the same as in the course to not generate duplicate?
 
-app.post('/api/contacts', (request, response) => {
+app.post('/api/contacts', (request, response, next) => {
     const body = request.body
 
     if (body.name === undefined) {
@@ -105,14 +78,6 @@ app.post('/api/contacts', (request, response) => {
         error: 'content missing' 
       })
     }
-
-    /*const nameExists = contacts.some(contact => contact.name == body.name)
-
-    if (nameExists) {
-      return response.status(400).json({ 
-        error: 'name must be unique' 
-      })
-    }*/
   
     const contact = new Contact({
       name: body.name,
@@ -121,18 +86,36 @@ app.post('/api/contacts', (request, response) => {
     contact.save().then(savedContact => {
       response.json(savedContact)
     })
-  })
-
-  const PORT = process.env.PORT || 3002
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+    .catch(error => {
+      next(error)
+    })
   })
   const errorHandler = (error, request, response, next) => {
 
     if (error.name === 'CastError') {
       return response.status(400).send({ error: 'malformatted id' })
-    } 
+    } else if (error.name ==='ValidationError') {
+       // Extract the errors property
+    const validationErrors = error.errors;
+    const errorMessages = [];
+
+    // Iterate over the errors object to extract the message for each field
+    for (const field in validationErrors) {
+      if (validationErrors.hasOwnProperty(field)) {
+        errorMessages.push(validationErrors[field].message);
+      }
+    }
+    // Log the extracted error messages
+    console.log('Validation Errors:', errorMessages);
+      return response.status(400).json({ error: errorMessages })
+    }
     next(error)
   }
   // this has to be the last loaded middleware, also all the routes should be registered before this!
   app.use(errorHandler)
+
+
+  const PORT = process.env.PORT || 3002
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+  })

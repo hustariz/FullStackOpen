@@ -32,7 +32,6 @@ const App = () => {
     }
 
     
-
     if (existingContact){
       if (window.confirm(`${newName} is already added to phonebook,
         replace the old number with a new one ?`)) {
@@ -65,6 +64,14 @@ const App = () => {
           setTimeout(() => {setNotificationMessage(null)}, 3000)
           setNewName('')
           setNewNumber('')
+        })
+        .catch(error => {
+          // Set the error message from the server response
+          console.error('Validation Errors:', error.response.data.error);
+          setErrorMessage(error.response.data.error)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
         })
     }
   }
