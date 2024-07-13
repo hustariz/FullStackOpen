@@ -22,3 +22,7 @@ Full stack development is extremely hard, that is why I will use all the possibl
 *I will progress with small steps
 *I will write lots of console.log statements to make sure I understand how the code behaves and to help pinpoint problems
 *If my code does not work, I will not write more code. Instead, I start deleting the code until it works or just return to a state when everything was still working
+
+
+Part 3.d; ex 3.21: Deploying the database backend to production: 
+Since your .env is git ignored, you must add environment variable with your mongoDBURL to render/fly.io for your application to correctly connect to the database.
