@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -6,51 +6,45 @@ const Note = require('./models/note')
 app.use(cors())
 
 
-  const requestLogger = (request, response, next) => {
-    console.log('Method', request.method)
-    console.log('Path: ', request.path)
-    console.log('Body ', request.body)
-    console.log('---');
-    next()
-  }
-  app.use(express.static('dist'))
-  app.use(express.json())
-  app.use(requestLogger)
+const requestLogger = (request, response, next) => {
+  console.log('Method', request.method)
+  console.log('Path: ', request.path)
+  console.log('Body ', request.body)
+  console.log('---')
+  next()
+}
+app.use(express.static('dist'))
+app.use(express.json())
+app.use(requestLogger)
 
-  const unknownEndpoint = (request, response) => {
-    response.status(404).send({ error: 'unknown endpoint' })
-  }
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
 
-  app.get('/', (request, response) => {
-    response.send('<h1>Hello World!</h1>')
+app.get('/', (request, response) => {
+  response.send('<h1>Hello World!</h1>')
+})
+
+app.get('/api/notes', (request, response) => {
+  Note.find({}).then(notes => {
+    response.json(notes)
   })
+})
 
-  app.get('/api/notes', (request, response) => {
-    Note.find({}).then(notes => {
-      response.json(notes)
-    })
+//New methods using the database
+app.get('/api/notes/:id', (request, response, next) => {
+  Note.findById(request.params.id).then(note => {
+    if (note) {
+      response.json(note)
+    } else {
+      response.status(404).end()
+    }
   })
-
-  //New methods using the database
-  app.get('/api/notes/:id', (request, response, next) => {
-    Note.findById(request.params.id).then(note => {
-      if (note) {
-        response.json(note)
-      } else {
-        response.status(404).end()
-      }
-    })
     .catch(error => next(error)) // error handler see definition at end of file.
-  })
+})
 
-  const generateId = () => {
-    const maxId = notes.length > 0
-      ? Math.max(...notes.map(n => n.id))
-      : 0
-    return maxId + 1
-  }
-  //New methods using the database
-  app.post('/api/notes', (request, response, next) => {
+//New methods using the database
+app.post('/api/notes', (request, response, next) => {
   const body = request.body
 
   const note = new Note({
@@ -67,46 +61,46 @@ app.use(cors())
     })
 })
 
- 
-  app.delete('/api/notes/:id', (request, response, next) => {
-    Note.findByIdAndDelete(request.params.id)
-      .then(result => {
-        response.status(204).end()
-      })
-      .catch(error => next(error))
-  })
 
-  app.put('/api/notes/:id', (request, response, next) => {
-    const { content, important } = request.body
-  
-    Note.findByIdAndUpdate(
-      request.params.id,
-      { content, important},
-      { new: true, runValidators: true, context: 'query'}
-    )
-      .then(updatedNote => {
-        response.json(updatedNote)
-      })
-      .catch(error => next(error))
-  })
+app.delete('/api/notes/:id', (request, response, next) => {
+  Note.findByIdAndDelete(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
+})
 
-  const errorHandler = (error, request, response, next) => {
+app.put('/api/notes/:id', (request, response, next) => {
+  const { content, important } = request.body
 
-    if (error.name === 'CastError') {
-      return response.status(400).send({ error: 'malformatted id' })
-    } else if (error.name === 'ValidationError') {
-      return response.status(400).json({ error: error.message })
-    }
-    next(error)
+  Note.findByIdAndUpdate(
+    request.params.id,
+    { content, important },
+    { new: true, runValidators: true, context: 'query' }
+  )
+    .then(updatedNote => {
+      response.json(updatedNote)
+    })
+    .catch(error => next(error))
+})
+
+const errorHandler = (error, request, response, next) => {
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   }
-  // this has to be the last loaded middleware, also all the routes should be registered before this!
-  app.use(errorHandler)
-  app.use(unknownEndpoint) // must be next to the last middleware loaded into Express, just before the error handler
+  next(error)
+}
+// this has to be the last loaded middleware, also all the routes should be registered before this!
+app.use(errorHandler)
+app.use(unknownEndpoint) // must be next to the last middleware loaded into Express, just before the error handler
 
-  const PORT = process.env.PORT || 3003
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-  })
+const PORT = process.env.PORT || 3003
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
 
 
 
