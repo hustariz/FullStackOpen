@@ -24,21 +24,21 @@ const contactSchema = new mongoose.Schema({
 const Contact = mongoose.model('Contact', contactSchema)
 
 if (numberInput && nameInput){
-    const contact = new Contact({
-        name: nameInput,
-        number: numberInput,
-      })
-      contact.save().then(result => {
+  const contact = new Contact({
+    name: nameInput,
+    number: numberInput,
+  })
+  contact.save().then(result => {
     console.log('Added', nameInput, ' ', numberInput, ' to phonebook')
     mongoose.connection.close()
   })
 }else{
-    Contact.find({}).then(result => {
-        result.forEach(contact =>{
-          console.log(contact);
-        })
-        mongoose.connection.close()
-      })
+  Contact.find({}).then(result => {
+    result.forEach(contact => {
+      console.log(contact)
+    })
+    mongoose.connection.close()
+  })
 }
 
 

@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config()
 const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', false)
@@ -22,15 +22,15 @@ const contactSchema = new mongoose.Schema({
     required: true
   },
   number: {
-    type: String, 
+    type: String,
     required: true,
     validate: {
       validator: function(v) {
-        const parts = v.split('-');
-        if (parts.length !== 2) return false;
-        if (parts[0].length < 2 || parts[0].length > 3) return false;
-        if (parts[1].length < 5) return false;
-        return true;
+        const parts = v.split('-')
+        if (parts.length !== 2) return false
+        if (parts[0].length < 2 || parts[0].length > 3) return false
+        if (parts[1].length < 5) return false
+        return true
       },
       message: props => `${props.value} is not a valid phone number!`
     }
