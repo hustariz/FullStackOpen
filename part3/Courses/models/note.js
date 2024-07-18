@@ -1,20 +1,21 @@
 const mongoose = require('mongoose')
+const { info } = require('../utils/logger')
 require('dotenv').config()
 
 mongoose.set('strictQuery', false)
 
 const url = process.env.MONGODB_URL
 
-console.log('MONGODB_URL:', url)  // Debug log to check if URL is read correctly
+info('MONGODB_URL:', url)  // Debug log to check if URL is read correctly
 
-console.log('Connecting to', url)
+info('Connecting to', url)
 
 mongoose.connect(url)
   .then(() => {
-    console.log('Connected to MongoDB')
+    info('Connected to MongoDB')
   })
   .catch((error) => {
-    console.log('Error connecting to MongoDB:', error.message)
+    info('Error connecting to MongoDB:', error.message)
   })
 
 const noteSchema = new mongoose.Schema({
@@ -34,8 +35,8 @@ noteSchema.set('toJSON', {
   }
 })
 
-console.log('Note schema defined')  // Debug log to ensure schema is defined
+info('Note schema defined')  // Debug log to ensure schema is defined
 
 module.exports = mongoose.model('Note', noteSchema)
 
-console.log('Note model exported')  // Debug log to ensure model is exported
+info('Note model exported')  // Debug log to ensure model is exported
